@@ -1,7 +1,7 @@
-package com.example.archat.infrastructure.api;
+package com.example.fatdogai.infrastructure.external;
 
-import com.example.archat.application.port.ChatProvider;
-import com.example.archat.domain.model.Chat;
+import com.example.fatdogai.application.port.ChatProvider;
+import com.example.fatdogai.domain.model.Chat;
 import com.google.genai.Client;
 import com.google.genai.types.Content;
 import com.google.genai.types.GenerateContentResponse;
@@ -11,7 +11,6 @@ import java.util.List;
 
 public class GenAIChatProvider implements ChatProvider {
 
-    // 단일 챗
     @Override
     public String useAI(Chat chat) {
         try (Client client = GenAIConfig.getClient()) {
@@ -26,18 +25,14 @@ public class GenAIChatProvider implements ChatProvider {
         }
     }
 
-    // 히스토리 포함
     @Override
     public String useAI(Chat newChat, List<Chat> chatHistory) {
-//        System.out.println("chatHistory = " + chatHistory);
         List<Content> contents = chatHistory.stream()
                 .map((c) -> Content.builder()
-//                        .role(newChat.owner().equals("USER") ? "user" : "model")
                         .role(c.owner().equals("USER") ? "user" : "model")
                         .parts(Part.builder().text(c.message()).build())
                         .build())
                 .toList();
-//        System.out.println("contents = " + contents);
         try (Client client = GenAIConfig.getClient()) {
             GenerateContentResponse response = client.models.generateContent(
                     newChat.model(),
@@ -51,7 +46,6 @@ public class GenAIChatProvider implements ChatProvider {
     }
 
     private GenAIChatProvider() {
-
     }
 
     private static final GenAIChatProvider instance = new GenAIChatProvider();
@@ -59,5 +53,4 @@ public class GenAIChatProvider implements ChatProvider {
     public static GenAIChatProvider getInstance() {
         return instance;
     }
-
 }

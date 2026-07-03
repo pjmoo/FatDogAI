@@ -1,17 +1,17 @@
-package com.example.archat.application.service;
+package com.example.fatdogai.application.service;
 
-import com.example.archat.application.port.ChatProvider;
-import com.example.archat.domain.model.Chat;
-import com.example.archat.domain.repository.ChatRepository;
-import com.example.archat.domain.service.ChatService;
-import com.example.archat.infrastructure.api.GenAIChatProvider;
-import com.example.archat.infrastructure.api.NimChatProvider;
-import com.example.archat.infrastructure.repository.InMemoryChatRepository;
+import com.example.fatdogai.application.port.ChatProvider;
+import com.example.fatdogai.application.port.ChatRepository;
+import com.example.fatdogai.application.port.ChatUseCase;
+import com.example.fatdogai.domain.model.Chat;
+import com.example.fatdogai.infrastructure.persistence.InMemoryChatRepository;
+import com.example.fatdogai.infrastructure.external.GenAIChatProvider;
+import com.example.fatdogai.infrastructure.external.NimChatProvider;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 
-public class GeminiChatService implements ChatService {
+public class GeminiChatService implements ChatUseCase {
 
     private final ChatRepository chatRepository;
     private final ChatProvider chatProvider;
@@ -19,7 +19,6 @@ public class GeminiChatService implements ChatService {
     @Override
     public void save(Chat chat) {
         chatRepository.save(chat);
-//        String aiResponse = useAI(chat);
         List<Chat> history = chatRepository.findAllByUserId(chat.userId());
         ChatProvider activeProvider = (chat.model() != null && chat.model().toLowerCase().contains("nemotron"))
                 ? NimChatProvider.getInstance()
@@ -41,7 +40,6 @@ public class GeminiChatService implements ChatService {
     }
 
     // 싱글톤 등록
-
     private GeminiChatService() {
         this.chatRepository = InMemoryChatRepository.getInstance();
         this.chatProvider = GenAIChatProvider.getInstance();
@@ -52,5 +50,4 @@ public class GeminiChatService implements ChatService {
     public static GeminiChatService getInstance() {
         return instance;
     }
-
 }

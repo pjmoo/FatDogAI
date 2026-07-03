@@ -1,7 +1,7 @@
-package com.example.archat.infrastructure.api;
+package com.example.fatdogai.infrastructure.external;
 
-import com.example.archat.application.port.ChatProvider;
-import com.example.archat.domain.model.Chat;
+import com.example.fatdogai.application.port.ChatProvider;
+import com.example.fatdogai.domain.model.Chat;
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ public class GroqChatProvider implements ChatProvider {
 
     @Override
     public String useAI(Chat chat) {
-        // HttpClient <- Fetch 쓰듯이. or langchain4j.
         throw new RuntimeException("Not Implemented");
     }
 
@@ -19,7 +18,6 @@ public class GroqChatProvider implements ChatProvider {
     }
 
     private GroqChatProvider() {
-
     }
 
     private static final GroqChatProvider instance = new GroqChatProvider();
@@ -27,5 +25,4 @@ public class GroqChatProvider implements ChatProvider {
     public static GroqChatProvider getInstance() {
         return instance;
     }
-
 }

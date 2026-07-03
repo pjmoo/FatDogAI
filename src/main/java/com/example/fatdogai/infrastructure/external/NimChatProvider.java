@@ -1,7 +1,7 @@
-package com.example.archat.infrastructure.api;
+package com.example.fatdogai.infrastructure.external;
 
-import com.example.archat.application.port.ChatProvider;
-import com.example.archat.domain.model.Chat;
+import com.example.fatdogai.application.port.ChatProvider;
+import com.example.fatdogai.domain.model.Chat;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

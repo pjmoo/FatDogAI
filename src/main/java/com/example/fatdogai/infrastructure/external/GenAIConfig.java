@@ -1,4 +1,4 @@
-package com.example.archat.infrastructure.api;
+package com.example.fatdogai.infrastructure.external;
 
 import com.google.genai.Client;
 import com.google.genai.types.*;
@@ -31,5 +31,4 @@ public class GenAIConfig {
                                 Part.builder().text(SYSTEM_INSTRUCTION).build()).build())
                 .build();
     }
-
 }
