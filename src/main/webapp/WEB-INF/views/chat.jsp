@@ -234,10 +234,11 @@
                 <div class="input-wrapper">
                     <input name="message" class="chat-input" placeholder="메시지를 입력하세요..." required autocomplete="off" />
                     <select name="model" class="chat-model-select">
-                        <option value="gemma-4-26b-a4b-it">빠르지만 약간 멍청</option>
-                        <option value="gemma-4-31b-it">안 빠르지만 덜 멍청</option>
-                        <option value="gemini-3.1-flash-lite">빠른데 덜 멍청</option>
+                        <option value="gemma-4-26b-a4b-it">gemma-4-26b</option>
+                        <option value="gemma-4-31b-it">gemma-4-31b</option>
+                        <option value="gemini-3.1-flash-lite">gemini-3.1</option>
                         <option value="nemotron-3-ultra-550b-a55b">네모트론 3 (Nemotron)</option>
+                        <option value="qwen/qwen3.6-27b">Qwen 3.6</option>
                     </select>
                     <button class="chat-send-btn">전송</button>
                 </div>

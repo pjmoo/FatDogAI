@@ -1,5 +1,6 @@
 package com.example.fatdogai.presentation.controller;
 
+import com.example.fatdogai.application.service.AIChatService;
 import com.example.fatdogai.application.service.GeminiChatService;
 import com.example.fatdogai.domain.model.Chat;
 import com.example.fatdogai.application.port.ChatUseCase;
@@ -20,7 +21,8 @@ public class ChatController extends BaseController {
 
     @Override
     public void init() throws ServletException {
-        chatService = GeminiChatService.getInstance();
+        // chatService = GeminiChatService.getInstance();
+        chatService = AIChatService.getInstance();
     }
 
     @Override
@@ -47,6 +49,7 @@ public class ChatController extends BaseController {
                 ZonedDateTime.now().toString()
         );
         chatService.save(chat);
+        req.getSession().setAttribute("selectedModel", req.getParameter("model"));
         resp.sendRedirect("%s/%s".formatted(req.getContextPath(), "chat"));
     }
 }
