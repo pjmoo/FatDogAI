@@ -126,8 +126,6 @@ GROQ_API_KEY=your-groq-api-key
 ```
 
 > 앱 시작 시 [`WebEnvListener`](src/main/java/com/example/fatdogai/presentation/listener/WebEnvListener.java)가 `.env`를 찾아 값을 시스템 프로퍼티로 로드합니다. `.env`는 `.gitignore`에 포함되어 커밋되지 않습니다.
->
-> ⚠️ 현재 `.env.sample`에는 `GROQ_API_KEY` 항목이 빠져 있으니, Groq 모델을 쓰려면 직접 추가해야 합니다.
 
 ### 2) 빌드
 
@@ -185,10 +183,9 @@ http://localhost:8080/<context-path>/chat
 ## ⚠️ 알려진 제약 / 개선 예정
 
 - **인메모리 저장** — 서버를 재시작하면 대화가 사라집니다. 실사용 시 DB 어댑터로 교체 필요.
-- **`.env.sample`에 `GROQ_API_KEY` 누락** — Groq가 기본 라우팅 대상인데 샘플 양식에는 빠져 있습니다.
 - **Groq 응답 후처리(`getFinalAnswer`)가 휴리스틱** — 줄 단위로 영어/마커를 지우고 한글만 남기는 방식이라, 답변이 영어이거나 형식이 다르면 잘려 나갈 수 있습니다.
 - **`WebEnvListener`의 디버그 로그 경로가 하드코딩** — 윈도우 절대경로(`C:\workspace\...`)라 다른 OS에서는 로그 파일 기록이 조용히 실패합니다(앱 동작에는 영향 없음).
 - **JSP 출력 미이스케이프** — `${chat.message}` 직접 출력으로 XSS 여지가 있어 `<c:out>` 처리 권장.
-- **`pom.xml` 정리 필요** — `artifactId`/`name`이 아직 `archat`이며, `junit-jupiter-api` 의존성이 중복 선언되어 있습니다.
+- **`pom.xml`의 `junit-jupiter-api` 중복 선언** — 동일 의존성이 두 번 선언되어 있어 하나로 정리 필요. (`artifactId`/`name`은 `FatDogAI`로 정리 완료)
 
 ---
