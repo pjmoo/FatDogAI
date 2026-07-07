@@ -26,7 +26,7 @@ public class AIChatService implements ChatUseCase {
         if (chat.model() != null && (chat.model().contains("gemini") || chat.model().contains("gemma"))) {
             aiResponse = genAIChatProvider.useAI(chat, history);
         } else if(chat.model().toLowerCase().contains("nemotron")){
-          //  aiResponse = NimChatProvider.useAI(chat, history);
+            aiResponse =  NimChatProvider.getInstance().useAI(chat,history);
         } else {
             aiResponse = groqChatProvider.useAI(chat, history);
         }
