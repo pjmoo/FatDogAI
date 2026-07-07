@@ -205,73 +205,71 @@
     </style>
 </head>
 <body>
-    <main class="chat-container">
-        <header class="chat-header">
-            <h1>FatDog AI</h1>
-            <p>차분하고 단정한 대화형 서비스</p>
-        </header>
+<main class="chat-container">
+    <header class="chat-header">
+        <h1>FatDog AI</h1>
+    </header>
 
-        <section class="chat-history">
-            <c:if test="${empty chats}">
-                <div class="empty-state">
-                    <p>아직 나눈 대화가 없습니다. 아래에서 메시지를 입력해보세요.</p>
+    <section class="chat-history">
+        <c:if test="${empty chats}">
+            <div class="empty-state">
+                <p>아직 나눈 대화가 없습니다. 아래에서 메시지를 입력해보세요.</p>
+            </div>
+        </c:if>
+        <c:forEach var="chat" items="${chats}">
+            <div class="message-card ${chat.owner == 'USER' ? 'user-message' : 'ai-message'}">
+                <div class="message-meta">
+                    <span class="message-owner">${chat.owner}</span>
+                    <span class="message-model">${chat.model}</span>
+                    <span class="message-time">${chat.timestamp}</span>
                 </div>
-            </c:if>
-            <c:forEach var="chat" items="${chats}">
-                <div class="message-card ${chat.owner == 'USER' ? 'user-message' : 'ai-message'}">
-                    <div class="message-meta">
-                        <span class="message-owner">${chat.owner}</span>
-                        <span class="message-model">${chat.model}</span>
-                        <span class="message-time">${chat.timestamp}</span>
-                    </div>
-                    <div class="message-body">${chat.message}</div>
-                </div>
-            </c:forEach>
-        </section>
+                <div class="message-body">${chat.message}</div>
+            </div>
+        </c:forEach>
+    </section>
 
-        <footer class="chat-footer">
-            <form action="<c:url value="/chat"/>" method="post" class="chat-form">
-                <div class="input-wrapper">
-                    <input name="message" class="chat-input" placeholder="메시지를 입력하세요..." required autocomplete="off" />
-                    <select name="model" class="chat-model-select">
-                        <option value="gemma-4-26b-a4b-it">gemma-4-26b</option>
-                        <option value="gemma-4-31b-it">gemma-4-31b</option>
-                        <option value="gemini-3.1-flash-lite">gemini-3.1</option>
-                        <option value="nemotron-3-ultra-550b-a55b">네모트론 3 (Nemotron)</option>
-                        <option value="qwen/qwen3.6-27b">Qwen 3.6</option>
-                    </select>
-                    <button class="chat-send-btn">전송</button>
-                </div>
-            </form>
-        </footer>
-    </main>
+    <footer class="chat-footer">
+        <form action="<c:url value="/chat"/>" method="post" class="chat-form">
+            <div class="input-wrapper">
+                <input name="message" class="chat-input" placeholder="메시지를 입력하세요..." required autocomplete="off" />
+                <select name="model" class="chat-model-select">
+                    <option value="gemma-4-26b-a4b-it" ${selectedModel == 'gemma-4-26b-a4b-it' ? 'selected' : ''}>gemma-4-26b</option>
+                    <option value="gemma-4-31b-it" ${selectedModel == 'gemma-4-31b-it' ? 'selected' : ''}>gemma-4-31b</option>
+                    <option value="gemini-3.1-flash-lite" ${selectedModel == 'gemini-3.1-flash-lite' ? 'selected' : ''}>gemini-3.1</option>
+                    <option value="nemotron-3-ultra-550b-a55b" ${selectedModel == 'nemotron-3-ultra-550b-a55b' ? 'selected' : ''}>네모트론 3 (Nemotron)</option>
+                    <option value="qwen/qwen3.6-27b" ${selectedModel == 'qwen/qwen3.6-27b' ? 'selected' : ''}>Qwen 3.6</option>
+                </select>
+                <button class="chat-send-btn">전송</button>
+            </div>
+        </form>
+    </footer>
+</main>
 
-    <script>
-        // Auto scroll to bottom
-        const historyDiv = document.querySelector('.chat-history');
-        if (historyDiv) {
-            historyDiv.scrollTop = historyDiv.scrollHeight;
-        }
+<script>
+    // Auto scroll to bottom
+    const historyDiv = document.querySelector('.chat-history');
+    if (historyDiv) {
+        historyDiv.scrollTop = historyDiv.scrollHeight;
+    }
 
-        // Format timestamps
-        document.querySelectorAll('.message-time').forEach(el => {
-            try {
-                const rawTime = el.innerText.trim();
-                if (rawTime) {
-                    const date = new Date(rawTime);
-                    if (!isNaN(date.getTime())) {
-                        el.innerText = date.toLocaleTimeString('ko-KR', { 
-                            hour: 'numeric', 
-                            minute: '2-digit',
-                            hour12: true 
-                        });
-                    }
+    // Format timestamps
+    document.querySelectorAll('.message-time').forEach(el => {
+        try {
+            const rawTime = el.innerText.trim();
+            if (rawTime) {
+                const date = new Date(rawTime);
+                if (!isNaN(date.getTime())) {
+                    el.innerText = date.toLocaleTimeString('ko-KR', {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    });
                 }
-            } catch (e) {
-                // fallback to raw string if parsing fails
             }
-        });
-    </script>
+        } catch (e) {
+            // fallback to raw string if parsing fails
+        }
+    });
+</script>
 </body>
 </html>
-
