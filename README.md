@@ -1,5 +1,53 @@
 # 🐶 FatDog AI
 
+<!-- workspace-readme-learning:start -->
+## 파일과 연결한 학습 안내
+
+아래 설명은 이 폴더의 실제 소스와 빌드 설정을 기준으로 정리했습니다. 기존 소개의 기능 설명은 연결된 파일과 함께 확인할 수 있습니다.
+
+### 주요 파일과 역할
+
+| 파일 | 역할과 읽을 내용 |
+| --- | --- |
+| [Dockerfile](<Dockerfile>) | 컨테이너 이미지의 빌드·실행 단계 |
+| [pom.xml](<pom.xml>) | Maven 의존성·플러그인·패키징 설정 |
+| [src/main/java/com/example/fatdogai/presentation/controller/BaseController.java](<src/main/java/com/example/fatdogai/presentation/controller/BaseController.java>) | HTTP 요청과 응답을 처리하는 Servlet |
+| [src/main/java/com/example/fatdogai/presentation/controller/ChatController.java](<src/main/java/com/example/fatdogai/presentation/controller/ChatController.java>) | Java 타입과 동작 정의 — `init` |
+| [src/main/java/com/example/fatdogai/application/port/ChatRepository.java](<src/main/java/com/example/fatdogai/application/port/ChatRepository.java>) | 데이터 저장·조회 인터페이스 또는 구현 |
+| [src/main/java/com/example/fatdogai/application/service/AIChatService.java](<src/main/java/com/example/fatdogai/application/service/AIChatService.java>) | 업무 처리와 외부 의존성 호출 — `save`, `findAllByUserId` |
+| [src/main/java/com/example/fatdogai/application/service/GeminiChatService.java](<src/main/java/com/example/fatdogai/application/service/GeminiChatService.java>) | 업무 처리와 외부 의존성 호출 — `save`, `findAllByUserId` |
+| [src/main/java/com/example/fatdogai/infrastructure/persistence/InMemoryChatRepository.java](<src/main/java/com/example/fatdogai/infrastructure/persistence/InMemoryChatRepository.java>) | 데이터 저장·조회 인터페이스 또는 구현 — `save`, `findAllByUserId` |
+| [src/main/java/com/example/fatdogai/application/port/ChatProvider.java](<src/main/java/com/example/fatdogai/application/port/ChatProvider.java>) | 구현체가 따라야 하는 인터페이스 |
+| [src/main/java/com/example/fatdogai/application/port/ChatPublisher.java](<src/main/java/com/example/fatdogai/application/port/ChatPublisher.java>) | 구현체가 따라야 하는 인터페이스 |
+| [src/main/java/com/example/fatdogai/application/port/ChatUseCase.java](<src/main/java/com/example/fatdogai/application/port/ChatUseCase.java>) | 업무 처리와 외부 의존성 호출 |
+| [src/main/java/com/example/fatdogai/application/port/port.md](<src/main/java/com/example/fatdogai/application/port/port.md>) | 설계·학습·운영 내용을 설명하는 문서 |
+| [src/main/java/com/example/fatdogai/application/service/service.md](<src/main/java/com/example/fatdogai/application/service/service.md>) | 설계·학습·운영 내용을 설명하는 문서 |
+| [src/main/java/com/example/fatdogai/domain/model/Chat.java](<src/main/java/com/example/fatdogai/domain/model/Chat.java>) | Java 타입과 동작 정의 — `Chat` |
+| [src/main/java/com/example/fatdogai/domain/model/model.md](<src/main/java/com/example/fatdogai/domain/model/model.md>) | 설계·학습·운영 내용을 설명하는 문서 |
+| [src/main/java/com/example/fatdogai/domain/service/service.md](<src/main/java/com/example/fatdogai/domain/service/service.md>) | 설계·학습·운영 내용을 설명하는 문서 |
+| [src/main/java/com/example/fatdogai/infrastructure/external/external.md](<src/main/java/com/example/fatdogai/infrastructure/external/external.md>) | 설계·학습·운영 내용을 설명하는 문서 |
+| [src/main/java/com/example/fatdogai/infrastructure/external/GenAIChatProvider.java](<src/main/java/com/example/fatdogai/infrastructure/external/GenAIChatProvider.java>) | Java 타입과 동작 정의 — `useAI` |
+
+### 실행과 설정 확인
+
+- [pom.xml](<pom.xml>)의 의존성과 패키징을 기준으로 구성합니다. 선언된 Java 설정은 17입니다.
+- `.\mvnw.cmd package`로 빌드합니다. WAR 결과물은 프로젝트의 Servlet/JSP 규격과 호환되는 컨테이너에 배포해 확인합니다.
+- 코드·설정에서 참조하는 환경 변수 이름: `GEMINI_API_KEY`, `GROQ_API_KEY`, `NIM_API_KEY`. 기본값과 필수 여부는 각 참조 위치에서 확인합니다.
+
+### 관련 PDF와 보충 설명
+
+- [7/2 강의](<../260629_ex/새 폴더/7-2/README.md>): 계층형·클린 아키텍처와 상태 관리의 책임 분리를 연결합니다.
+- [6/4 강의](<../260629_ex/새 폴더/6-4/README.md>): 서버의 AI 제공자 호출과 입력·응답·환경 설정을 연결합니다.
+
+이 링크는 구현을 이해하기 위한 관련 기초 자료입니다. 해당 강의가 이 저장소의 모든 기능이나 이후 버전의 API를 설명한다는 뜻은 아닙니다.
+
+### 읽는 순서와 복습
+
+- 요청 처리 → 유스케이스·서비스 → 포트·저장소·외부 API의 의존 방향을 읽습니다. 외부 구현을 교체할 때 바뀌는 코드와 업무 규칙을 가진 코드가 구분되는지 확인합니다.
+- 화면 요청 → 서버 API → 모델 호출 → 결과 변환 순으로 책임을 구분합니다. 입력 누락과 모델 호출 실패의 처리를 확인하고 비밀 키가 브라우저로 전달되는지 점검합니다.
+
+<!-- workspace-readme-learning:end -->
+
 > 헥사고날(Hexagonal) / 클린(Clean) 아키텍처로 구성한 웹 기반 멀티-LLM 채팅 애플리케이션
 
 브라우저에서 메시지와 AI 모델을 고르면, 서버가 여러 AI 제공자(Google Gemini · NVIDIA Nemotron · Groq) 중 하나에 물어보고 답을 화면에 돌려줍니다. "AI 챗봇"이라는 기능 자체보다 **어떻게 계층을 나누고 의존성을 관리하는가**를 학습하기 위한 프로젝트
@@ -189,3 +237,61 @@ http://localhost:8080/<context-path>/chat
 - **`pom.xml`의 `junit-jupiter-api` 중복 선언** — 동일 의존성이 두 번 선언되어 있어 하나로 정리 필요. (`artifactId`/`name`은 `FatDogAI`로 정리 완료)
 
 ---
+
+<!-- pdf-til-supplement:start -->
+## TIL 부연 설명 — PDF와 연결하기
+
+기존 실습 내용을 이해하기 위한 PDF 기반 부연 설명이다. 아래 예시는 개념을 설명하기 위한 것이며, 이 프로젝트에서 실행해 관찰한 결과와는 구분한다. 페이지 번호는 표지를 포함한 PDF 순서다.
+
+함께 읽을 파일: [src/main/java/com/example/fatdogai/presentation/controller/BaseController.java](<src/main/java/com/example/fatdogai/presentation/controller/BaseController.java>) · [src/main/java/com/example/fatdogai/presentation/controller/ChatController.java](<src/main/java/com/example/fatdogai/presentation/controller/ChatController.java>) · [src/main/java/com/example/fatdogai/application/port/ChatRepository.java](<src/main/java/com/example/fatdogai/application/port/ChatRepository.java>)
+
+### MVC와 계층형 설계의 역할 차이
+
+MVC는 입력 제어·데이터·화면의 역할을 나누고, 계층형 설계는 웹 처리·업무 규칙·저장소 접근의 책임을 나눈다. 따라서 MVC와 Controller–Service–Repository 구조를 함께 사용할 수 있다. 클린 아키텍처에서는 업무 규칙이 외부 구현을 직접 참조하지 않도록 의존 방향을 조정한다.
+
+**예시로 이해하기:** 컨트롤러는 “요청이 어떤 형식인가”, 서비스는 “이 작업이 허용되는가”, 저장소는 “어떻게 읽고 쓰는가”를 맡도록 생각한다. 외부 AI 제공자를 교체할 때 요청 API까지 바꿔야 한다면 제공자 전용 타입이 경계를 넘는지 살펴본다.
+
+근거: 232 소프트웨어 아키텍처 패턴 — [4쪽](<../260629_ex/새 폴더/7-2/232_소프트웨어_아키텍처_패턴.pdf#page=4>) · [12쪽](<../260629_ex/새 폴더/7-2/232_소프트웨어_아키텍처_패턴.pdf#page=12>) · [15쪽](<../260629_ex/새 폴더/7-2/232_소프트웨어_아키텍처_패턴.pdf#page=15>) · [19쪽](<../260629_ex/새 폴더/7-2/232_소프트웨어_아키텍처_패턴.pdf#page=19>)
+
+### 쿠키는 전달 수단, 세션은 서버 상태
+
+쿠키는 브라우저가 조건에 맞는 요청에 실어 보내는 값이고 세션은 서버가 식별자에 연결해 보관하는 상태다. 세션 방식도 브라우저가 세션 ID를 제시하므로 식별자 보호와 만료 처리가 필요하다. 인증으로 신원을 확인한 후 실제 자원에 대한 인가를 별도로 판단한다.
+
+**예시로 이해하기:** 로그인 → 세션 생성 → 이후 요청의 세션 조회 → 로그아웃 시 무효화 순서로 읽는다. HttpOnly는 자바스크립트의 쿠키 읽기를 제한하지만 브라우저의 자동 전송은 막지 않는다. Secure·SameSite·CSRF 정책은 요청을 보내는 방식과 함께 이해한다.
+
+근거: 233-1 쿠키와 세션 — [4쪽](<../260629_ex/새 폴더/7-2/233-1_쿠키와_세션.pdf#page=4>) · [6쪽](<../260629_ex/새 폴더/7-2/233-1_쿠키와_세션.pdf#page=6>) · [10쪽](<../260629_ex/새 폴더/7-2/233-1_쿠키와_세션.pdf#page=10>) · [12쪽](<../260629_ex/새 폴더/7-2/233-1_쿠키와_세션.pdf#page=12>) · [17쪽](<../260629_ex/새 폴더/7-2/233-1_쿠키와_세션.pdf#page=17>)
+
+### 브라우저와 AI 호출 사이에 서버를 두는 이유
+
+AI 기능을 앱에 붙일 때는 사용자 입력 수신, 제공자 호출, 결과 가공을 구분한다. 서버는 비밀키를 보관하고 허용된 입력·모델·응답 형식을 통제하는 경계가 된다. 브라우저에 비밀키를 넣으면 코드나 네트워크 요청에서 확인될 수 있다.
+
+**예시로 이해하기:** 챗봇이라면 브라우저 → 앱 서버의 대화 API → AI 제공자 → 앱 응답 → 화면 표시로 추적한다. 제공자 오류를 그대로 화면에 노출하기보다 사용자에게 필요한 실패 안내로 바꾼다. 429 같은 호출 제한과 잘못된 입력은 대응이 다르므로 무조건 재시도하는 흐름은 피한다.
+
+근거: 171-1 Gen AI 활용 웹앱 개발 — [21쪽](<../260629_ex/새 폴더/6-4/171-1_Gen_AI_활용_웹앱_개발.pdf#page=21>) · [22쪽](<../260629_ex/새 폴더/6-4/171-1_Gen_AI_활용_웹앱_개발.pdf#page=22>) · [23쪽](<../260629_ex/새 폴더/6-4/171-1_Gen_AI_활용_웹앱_개발.pdf#page=23>) · [27쪽](<../260629_ex/새 폴더/6-4/171-1_Gen_AI_활용_웹앱_개발.pdf#page=27>)
+
+<!-- pdf-til-supplement:end -->
+
+<!-- infra-pdf-20260914:start -->
+## TIL 부연 설명 — 9월 인프라 PDF
+
+기존 실습을 새로 추가된 PDF와 연결해 풀어 쓴 설명이다. 페이지 번호는 표지를 포함한 PDF 순서이며, 아래 개념 예시는 실제 실행 결과와 구분한다.
+
+### 이미지 빌드와 컨테이너 실행은 다른 단계
+
+현재 [Dockerfile](<Dockerfile>)은 Maven 단계에서 WAR를 만든 뒤 Tomcat 이미지의 `webapps/ROOT.war`에 복사한다. 마지막에 실행하는 것은 `java -jar`가 아니라 `catalina.sh run`이며 Tomcat이 WAR를 배포한다. Tomcat의 컨테이너 내부 수신 포트는 이 파일에서 8080으로 안내한다. `ROOT.war`라는 배포 이름은 애플리케이션을 루트 경로에 배치하는 데 연결된다.
+
+멀티 스테이지는 컴파일에 필요한 도구와 운영 시 필요한 실행 파일을 분리하는 방식이다. 앞 단계에서 만든 파일 중 `COPY --from`으로 선택한 것만 다음 단계로 옮긴다. `docker build`는 이미지를 만들며 웹 서버를 계속 실행해 두는 명령은 아니다. 실제 서비스는 그 이미지로 컨테이너를 생성·실행할 때 시작된다. 빌드 성공 후에도 런타임의 DB 접속·환경변수·포트 문제로 시작에 실패할 수 있다.
+
+PDF 근거: 이미지 빌드·볼륨·네트워크 — [4쪽](<../260629_ex/새 폴더/9-8/03-1_도커_이미지_빌드와_볼륨_네트워크.pdf#page=4>) · [5쪽](<../260629_ex/새 폴더/9-8/03-1_도커_이미지_빌드와_볼륨_네트워크.pdf#page=5>) · [6쪽](<../260629_ex/새 폴더/9-8/03-1_도커_이미지_빌드와_볼륨_네트워크.pdf#page=6>) · [7쪽](<../260629_ex/새 폴더/9-8/03-1_도커_이미지_빌드와_볼륨_네트워크.pdf#page=7>)
+
+### 설정·공개 포트·저장 데이터의 경계
+
+이 프로젝트에서는 Tomcat의 설정 파일에 지정된 포트가 실제 수신 포트다.
+
+`EXPOSE`는 사용 포트를 이미지에 명시하는 것이며 호스트 포트를 실제로 여는 동작은 아니다. `-p 호스트포트:컨테이너포트` 또는 Compose의 `ports`가 두 포트를 연결한다. 컨테이너 안의 `localhost`는 그 컨테이너 자신이므로 별도 DB 컨테이너를 찾는 주소로 사용할 수 없다. 같은 사용자 정의 네트워크에 연결된 컨테이너는 이름으로 상대를 찾는 구성을 사용할 수 있다.
+
+이미지에는 실행 코드를 두고 환경별 값은 실행 시 전달하면 같은 이미지를 여러 환경에서 사용할 수 있다. 업로드·DB 파일처럼 재생성 후에도 남아야 하는 데이터는 컨테이너 쓰기 레이어와 분리한다. 볼륨은 영속 저장의 수단이며 백업 자체를 대신하지는 않는다.
+
+PDF 근거: 이미지 빌드·볼륨·네트워크 — [10쪽](<../260629_ex/새 폴더/9-8/03-1_도커_이미지_빌드와_볼륨_네트워크.pdf#page=10>) · [11쪽](<../260629_ex/새 폴더/9-8/03-1_도커_이미지_빌드와_볼륨_네트워크.pdf#page=11>) · [12쪽](<../260629_ex/새 폴더/9-8/03-1_도커_이미지_빌드와_볼륨_네트워크.pdf#page=12>) · [13쪽](<../260629_ex/새 폴더/9-8/03-1_도커_이미지_빌드와_볼륨_네트워크.pdf#page=13>) · [14쪽](<../260629_ex/새 폴더/9-8/03-1_도커_이미지_빌드와_볼륨_네트워크.pdf#page=14>)
+
+<!-- infra-pdf-20260914:end -->
